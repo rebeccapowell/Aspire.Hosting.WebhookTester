@@ -13,9 +13,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Notes", "Notes", "{1019C5FD
 	ProjectSection(SolutionItems) = preProject
 		LICENSE = LICENSE
 		README.md = README.md
+		.gitignore = .gitignore
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests", "Tests\Tests.csproj", "{13D680F5-2720-4909-80D5-15ED76381A01}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Aspire.Hosting.WebhooksTester.Tests", "tests\Aspire.Hosting.WebhooksTester.Tests\Aspire.Hosting.WebhooksTester.Tests.csproj", "{F35713FA-F4B8-4928-A828-E5BDC8A5FE48}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -38,9 +39,9 @@ Global
 		{157834A5-91BA-455F-9DCC-1F37756F1985}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{157834A5-91BA-455F-9DCC-1F37756F1985}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{157834A5-91BA-455F-9DCC-1F37756F1985}.Release|Any CPU.Build.0 = Release|Any CPU
-		{13D680F5-2720-4909-80D5-15ED76381A01}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{13D680F5-2720-4909-80D5-15ED76381A01}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{13D680F5-2720-4909-80D5-15ED76381A01}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{13D680F5-2720-4909-80D5-15ED76381A01}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F35713FA-F4B8-4928-A828-E5BDC8A5FE48}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F35713FA-F4B8-4928-A828-E5BDC8A5FE48}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F35713FA-F4B8-4928-A828-E5BDC8A5FE48}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F35713FA-F4B8-4928-A828-E5BDC8A5FE48}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

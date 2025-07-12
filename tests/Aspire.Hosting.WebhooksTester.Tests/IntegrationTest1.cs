@@ -1,6 +1,6 @@
 using Microsoft.Extensions.Logging;
 
-namespace Tests.Tests;
+namespace Aspire.Hosting.WebhooksTester.Tests.Tests;
 
 public class IntegrationTest1
 {
@@ -19,7 +19,7 @@ public class IntegrationTest1
 	// public async Task GetWebResourceRootReturnsOkStatusCode()
 	// {
 	//     // Arrange
-	//     var cancellationToken = new CancellationTokenSource(DefaultTimeout).Token;
+	//     var cancellationToken = TestContext.Current.CancellationToken;
 	//     var appHost = await DistributedApplicationTestingBuilder.CreateAsync<Projects.MyAspireApp_AppHost>(cancellationToken);
 	//     appHost.Services.AddLogging(logging =>
 	//     {

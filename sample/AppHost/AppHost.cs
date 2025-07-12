@@ -4,7 +4,6 @@ var builder = DistributedApplication.CreateBuilder(args);
 
 var token = Guid.NewGuid().ToString();
 
-
 var webhookTester = builder.AddWebhookTester("webhook-tester")
 	.WithAutoCreateSessions()
 	.WithDefaultSessionToken(token)
