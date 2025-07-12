@@ -1,0 +1,38 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <TargetFramework>net9.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <IsPackable>true</IsPackable>
+        <EnablePackageValidation>true</EnablePackageValidation>
+        <PackageId>Powell.Aspire.Hosting.WebhookTester</PackageId>
+        <PackageVersion>0.1.0</PackageVersion>
+        <GenerateDocumentationFile>true</GenerateDocumentationFile>
+        <PackageReadmeFile>README.md</PackageReadmeFile>
+        <PackageLicenseFile>LICENSE</PackageLicenseFile>
+        <PublishRepositoryUrl>true</PublishRepositoryUrl>
+        <PackageTags>dotnet;aspire;webhook;tester</PackageTags>
+        <Description>Aspire extension to run Webhook Teser as a Docker container.</Description>
+        <RepositoryUrl>https://github.com/rebeccapowell/Aspire.Hosting.WebhookTester</RepositoryUrl>
+        <Authors>Rebecca Powell</Authors>
+        <AllowedOutputExtensionsInPackageBuildOutputFolder>$(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>
+        <EmbedUntrackedSources>true</EmbedUntrackedSources>
+    </PropertyGroup>
+    <ItemGroup>
+        <PackageReference Include="Aspire.Hosting" Version="9.3.1" />
+        <PackageReference Include="Aspire.Hosting.AppHost" Version="9.3.1"/>
+        <PackageReference Include="Microsoft.SourceLink.GitHub" Version="8.0.0" PrivateAssets="All"/>
+    </ItemGroup>
+    <ItemGroup>
+        <None Include="..\..\LICENSE">
+            <Pack>true</Pack>
+            <PackagePath></PackagePath>
+            <Link>LICENSE</Link>
+        </None>
+        <None Include="..\..\README.md">
+            <Pack>true</Pack>
+            <PackagePath></PackagePath>
+            <Link>README.md</Link>
+        </None>
+    </ItemGroup>
+</Project>
