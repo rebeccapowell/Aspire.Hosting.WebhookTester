@@ -13,16 +13,15 @@ public class IntegrationTest1
     [Fact]
     public async Task ApiRequestIsLoggedInWebhookTester()
     {
-        using var cts = new CancellationTokenSource(DefaultTimeout);
-        var cancellationToken = cts.Token;
+        var cancellationToken = TestContext.Current?.CancellationToken ?? default;
 
-        var builder = await DistributedApplicationTestingBuilder.CreateAsync<Projects.AppHost>(cancellationToken);
+        var builder = await DistributedApplicationTestingBuilder.CreateAsync<Projects.AppHost_AppHost>(cancellationToken);
 
         builder.Services.AddLogging(logging =>
         {
-            logging.SetMinimumLevel(Microsoft.Extensions.Logging.LogLevel.Debug);
-            logging.AddFilter(builder.Environment.ApplicationName, Microsoft.Extensions.Logging.LogLevel.Debug);
-            logging.AddFilter("Aspire.", Microsoft.Extensions.Logging.LogLevel.Debug);
+            logging.SetMinimumLevel(LogLevel.Debug);
+            logging.AddFilter(builder.Environment.ApplicationName, LogLevel.Debug);
+            logging.AddFilter("Aspire.", LogLevel.Debug);
         });
 
         builder.Services.ConfigureHttpClientDefaults(clientBuilder =>
@@ -30,22 +29,21 @@ public class IntegrationTest1
             clientBuilder.AddStandardResilienceHandler();
         });
 
-        var webhook = builder.CreateResourceBuilder<WebhookTesterResource>("webhook-tester").Resource;
-        var sessionToken = webhook.DefaultSessionToken;
-
         await using var app = await builder.BuildAsync(cancellationToken).WaitAsync(DefaultTimeout, cancellationToken);
         await app.StartAsync(cancellationToken).WaitAsync(DefaultTimeout, cancellationToken);
 
         await app.ResourceNotifications.WaitForResourceAsync("webhook-tester", KnownResourceStates.Running, cancellationToken).WaitAsync(DefaultTimeout, cancellationToken);
 
+        var webhookResource = app.GetResource<WebhookTesterResource>("webhook-tester");
+        var sessionToken = webhookResource.DefaultSessionToken;
+
         var apiClient = app.CreateHttpClient("api");
         var webhookClient = app.CreateHttpClient("webhook-tester", "http");
 
-        // Verify session exists
+        // Ensure the session exists
         var sessionResponse = await webhookClient.GetAsync($"/api/session/{sessionToken}", cancellationToken);
         sessionResponse.EnsureSuccessStatusCode();
 
-        // Trigger webhook via API
         var payload = new { name = "Rebecca" };
         var response = await apiClient.PostAsJsonAsync("/test", payload, cancellationToken);
         response.EnsureSuccessStatusCode();
@@ -54,7 +52,7 @@ public class IntegrationTest1
 
         var requests = await webhookClient.GetFromJsonAsync<List<CapturedRequest>>($"/api/session/{sessionToken}/requests", cancellationToken);
         Assert.NotNull(requests);
-        Assert.NotEmpty(requests);
+        Assert.NotEmpty(requests!);
 
         var bodyJson = Encoding.UTF8.GetString(Convert.FromBase64String(requests![0].request_payload_base64));
         Assert.Contains("Rebecca", bodyJson);
