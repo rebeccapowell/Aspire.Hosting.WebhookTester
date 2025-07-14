@@ -1,6 +1,7 @@
 using System.Net.Http.Json;
 using System.Text;
 using Microsoft.Extensions.Logging;
+using Projects;
 
 namespace Aspire.Hosting.WebhooksTester.Tests.Tests;
 
@@ -15,13 +16,13 @@ public class IntegrationTest1
     {
         var cancellationToken = TestContext.Current?.CancellationToken ?? default;
 
-        var builder = await DistributedApplicationTestingBuilder.CreateAsync<Projects.AppHost_AppHost>(cancellationToken);
+        var builder = await DistributedApplicationTestingBuilder.CreateAsync<AppHost>(cancellationToken);
 
         builder.Services.AddLogging(logging =>
         {
-            logging.SetMinimumLevel(LogLevel.Debug);
-            logging.AddFilter(builder.Environment.ApplicationName, LogLevel.Debug);
-            logging.AddFilter("Aspire.", LogLevel.Debug);
+            logging.SetMinimumLevel(Microsoft.Extensions.Logging.LogLevel.Debug);
+            logging.AddFilter(builder.Environment.ApplicationName, Microsoft.Extensions.Logging.LogLevel.Debug);
+            logging.AddFilter("Aspire.", Microsoft.Extensions.Logging.LogLevel.Debug);
         });
 
         builder.Services.ConfigureHttpClientDefaults(clientBuilder =>
@@ -34,11 +35,11 @@ public class IntegrationTest1
 
         await app.ResourceNotifications.WaitForResourceAsync("webhook-tester", KnownResourceStates.Running, cancellationToken).WaitAsync(DefaultTimeout, cancellationToken);
 
-        var webhookResource = app.GetResource<WebhookTesterResource>("webhook-tester");
-        var sessionToken = webhookResource.DefaultSessionToken;
-
         var apiClient = app.CreateHttpClient("api");
         var webhookClient = app.CreateHttpClient("webhook-tester", "http");
+
+        // The webhook client base address ends with the default session token
+        var sessionToken = webhookClient.BaseAddress?.Segments.Last().TrimEnd('/');
 
         // Ensure the session exists
         var sessionResponse = await webhookClient.GetAsync($"/api/session/{sessionToken}", cancellationToken);
