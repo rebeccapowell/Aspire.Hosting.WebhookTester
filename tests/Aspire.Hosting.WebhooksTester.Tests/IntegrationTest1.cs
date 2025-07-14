@@ -13,7 +13,8 @@ public class IntegrationTest1
     [Fact]
     public async Task ApiRequestIsLoggedInWebhookTester()
     {
-        var cancellationToken = TestContext.Current.CancellationToken;
+        using var cts = new CancellationTokenSource(DefaultTimeout);
+        var cancellationToken = cts.Token;
 
         var builder = await DistributedApplicationTestingBuilder.CreateAsync<Projects.AppHost>(cancellationToken);
 
