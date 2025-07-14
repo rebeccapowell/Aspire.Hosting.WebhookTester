@@ -8,7 +8,7 @@
         <IsTestProject>true</IsTestProject>
     </PropertyGroup>
 
-    <ItemGroup>
+  <ItemGroup>
         <PackageReference Include="Aspire.Hosting.Testing" Version="9.3.1"/>
         <PackageReference Include="coverlet.collector" Version="6.0.4">
           <PrivateAssets>all</PrivateAssets>
@@ -20,7 +20,11 @@
           <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
         <PackageReference Include="xunit.v3" Version="2.0.3" />
-    </ItemGroup>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\sample\AppHost\AppHost.csproj" />
+  </ItemGroup>
 
     <ItemGroup>
         <Using Include="System.Net"/>

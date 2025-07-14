@@ -1,48 +1,61 @@
+using System.Net.Http.Json;
+using System.Text;
 using Microsoft.Extensions.Logging;
 
 namespace Aspire.Hosting.WebhooksTester.Tests.Tests;
 
 public class IntegrationTest1
 {
-	private static readonly TimeSpan DefaultTimeout = TimeSpan.FromSeconds(30);
+    private static readonly TimeSpan DefaultTimeout = TimeSpan.FromSeconds(30);
 
-	// Instructions:
-	// 1. Add a project reference to the target AppHost project, e.g.:
-	//
-	//    <ItemGroup>
-	//        <ProjectReference Include="../MyAspireApp.AppHost/MyAspireApp.AppHost.csproj" />
-	//    </ItemGroup>
-	//
-	// 2. Uncomment the following example test and update 'Projects.MyAspireApp_AppHost' to match your AppHost project:
-	//
-	// [Fact]
-	// public async Task GetWebResourceRootReturnsOkStatusCode()
-	// {
-	//     // Arrange
-	//     var cancellationToken = TestContext.Current.CancellationToken;
-	//     var appHost = await DistributedApplicationTestingBuilder.CreateAsync<Projects.MyAspireApp_AppHost>(cancellationToken);
-	//     appHost.Services.AddLogging(logging =>
-	//     {
-	//         logging.SetMinimumLevel(LogLevel.Debug);
-	//         // Override the logging filters from the app's configuration
-	//         logging.AddFilter(appHost.Environment.ApplicationName, LogLevel.Debug);
-	//         logging.AddFilter("Aspire.", LogLevel.Debug);
-	//         // To output logs to the xUnit.net ITestOutputHelper, consider adding a package from https://www.nuget.org/packages?q=xunit+logging
-	//     });
-	//     appHost.Services.ConfigureHttpClientDefaults(clientBuilder =>
-	//     {
-	//         clientBuilder.AddStandardResilienceHandler();
-	//     });
-	//
-	//     await using var app = await appHost.BuildAsync(cancellationToken).WaitAsync(DefaultTimeout, cancellationToken);
-	//     await app.StartAsync(cancellationToken).WaitAsync(DefaultTimeout, cancellationToken);
-	//
-	//     // Act
-	//     var httpClient = app.CreateHttpClient("webfrontend");
-	//     await app.ResourceNotifications.WaitForResourceHealthyAsync("webfrontend", cancellationToken).WaitAsync(DefaultTimeout, cancellationToken);
-	//     var response = await httpClient.GetAsync("/", cancellationToken);
-	//
-	//     // Assert
-	//     Assert.Equal(HttpStatusCode.OK, response.StatusCode);
-	// }
+    private sealed record CapturedRequest(string request_payload_base64);
+
+    [Fact]
+    public async Task ApiRequestIsLoggedInWebhookTester()
+    {
+        var cancellationToken = TestContext.Current.CancellationToken;
+
+        var builder = await DistributedApplicationTestingBuilder.CreateAsync<Projects.AppHost>(cancellationToken);
+
+        builder.Services.AddLogging(logging =>
+        {
+            logging.SetMinimumLevel(Microsoft.Extensions.Logging.LogLevel.Debug);
+            logging.AddFilter(builder.Environment.ApplicationName, Microsoft.Extensions.Logging.LogLevel.Debug);
+            logging.AddFilter("Aspire.", Microsoft.Extensions.Logging.LogLevel.Debug);
+        });
+
+        builder.Services.ConfigureHttpClientDefaults(clientBuilder =>
+        {
+            clientBuilder.AddStandardResilienceHandler();
+        });
+
+        var webhook = builder.CreateResourceBuilder<WebhookTesterResource>("webhook-tester").Resource;
+        var sessionToken = webhook.DefaultSessionToken;
+
+        await using var app = await builder.BuildAsync(cancellationToken).WaitAsync(DefaultTimeout, cancellationToken);
+        await app.StartAsync(cancellationToken).WaitAsync(DefaultTimeout, cancellationToken);
+
+        await app.ResourceNotifications.WaitForResourceAsync("webhook-tester", KnownResourceStates.Running, cancellationToken).WaitAsync(DefaultTimeout, cancellationToken);
+
+        var apiClient = app.CreateHttpClient("api");
+        var webhookClient = app.CreateHttpClient("webhook-tester", "http");
+
+        // Verify session exists
+        var sessionResponse = await webhookClient.GetAsync($"/api/session/{sessionToken}", cancellationToken);
+        sessionResponse.EnsureSuccessStatusCode();
+
+        // Trigger webhook via API
+        var payload = new { name = "Rebecca" };
+        var response = await apiClient.PostAsJsonAsync("/test", payload, cancellationToken);
+        response.EnsureSuccessStatusCode();
+
+        await Task.Delay(TimeSpan.FromSeconds(1), cancellationToken);
+
+        var requests = await webhookClient.GetFromJsonAsync<List<CapturedRequest>>($"/api/session/{sessionToken}/requests", cancellationToken);
+        Assert.NotNull(requests);
+        Assert.NotEmpty(requests);
+
+        var bodyJson = Encoding.UTF8.GetString(Convert.FromBase64String(requests![0].request_payload_base64));
+        Assert.Contains("Rebecca", bodyJson);
+    }
 }
