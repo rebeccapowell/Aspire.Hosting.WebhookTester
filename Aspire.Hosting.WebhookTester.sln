@@ -18,6 +18,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Notes", "Notes", "{1019C5FD
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Aspire.Hosting.WebhooksTester.Tests", "tests\Aspire.Hosting.WebhooksTester.Tests\Aspire.Hosting.WebhooksTester.Tests.csproj", "{F35713FA-F4B8-4928-A828-E5BDC8A5FE48}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Api", "sample\Api\Api.csproj", "{6109AF76-491A-45C8-8310-B1C01738B530}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -43,5 +45,9 @@ Global
 		{F35713FA-F4B8-4928-A828-E5BDC8A5FE48}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F35713FA-F4B8-4928-A828-E5BDC8A5FE48}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F35713FA-F4B8-4928-A828-E5BDC8A5FE48}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6109AF76-491A-45C8-8310-B1C01738B530}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6109AF76-491A-45C8-8310-B1C01738B530}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6109AF76-491A-45C8-8310-B1C01738B530}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6109AF76-491A-45C8-8310-B1C01738B530}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

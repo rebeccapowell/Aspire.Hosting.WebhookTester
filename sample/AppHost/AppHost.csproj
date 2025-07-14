@@ -16,6 +16,7 @@
 
     <ItemGroup>
         <ProjectReference Include="../../src/Aspire.Hosting.WebhookTester/Aspire.Hosting.WebhookTester.csproj" IsAspireProjectResource="false" />
+        <ProjectReference Include="..\Api\Api.csproj" />
     </ItemGroup>
 
 </Project>
