@@ -20,10 +20,11 @@
           <PrivateAssets>all</PrivateAssets>
           <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
-        <PackageReference Include="xunit.v3" Version="2.0.3" />
+        <PackageReference Include="xunit.v3" Version="3.0.0" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\tests\Aspire.Tests.Utilities\Aspire.Tests.Utilities.csproj" />
     <ProjectReference Include="..\AppHost\AppHost.csproj" />
   </ItemGroup>
 

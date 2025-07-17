@@ -1,12 +1,10 @@
 using System.Net;
-using Aspire.Hosting.ApplicationModel;
-using Aspire.Hosting.Testing;
-using Xunit.Abstractions;
 
 namespace Aspire.Hosting.WebhookTester.Tests;
 
 public class WebhookTesterFunctionalTests(ITestOutputHelper testOutputHelper)
 {
+    [Fact]
     [RequiresDocker]
     public async Task VerifyWebhookTesterResourceHealth()
     {
@@ -23,6 +21,7 @@ public class WebhookTesterFunctionalTests(ITestOutputHelper testOutputHelper)
         Assert.Equal(HttpStatusCode.OK, response.StatusCode);
     }
 
+    [Fact]
     [RequiresDocker]
     public async Task WithDefaultWebhookTokenInjectsEnvironment()
     {
@@ -39,6 +38,7 @@ public class WebhookTesterFunctionalTests(ITestOutputHelper testOutputHelper)
         Assert.Equal(token, env["DEFAULT_SESSION_TOKEN"]);
     }
 
+    [Fact]
     [RequiresDocker]
     public async Task WithFsStorageDirSetsEnvironmentVariable()
     {

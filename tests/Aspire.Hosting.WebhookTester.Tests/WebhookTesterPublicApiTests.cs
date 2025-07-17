@@ -1,5 +1,3 @@
-using Aspire.Hosting.ApplicationModel;
-
 namespace Aspire.Hosting.WebhookTester.Tests;
 
 public class WebhookTesterPublicApiTests
