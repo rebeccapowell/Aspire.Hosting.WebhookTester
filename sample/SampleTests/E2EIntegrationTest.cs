@@ -1,5 +1,6 @@
 using System.Net.Http.Json;
 using System.Text;
+using Aspire.Hosting.WebhookTester.Tests;
 using Microsoft.Extensions.Logging;
 using Projects;
 
@@ -12,6 +13,7 @@ public class E2EIntegrationTest
     private sealed record CapturedRequest(string request_payload_base64);
 
     [Fact]
+    [RequiresDocker]
     public async Task ApiRequestIsLoggedInWebhookTester()
     {
         var cancellationToken = TestContext.Current?.CancellationToken ?? default;

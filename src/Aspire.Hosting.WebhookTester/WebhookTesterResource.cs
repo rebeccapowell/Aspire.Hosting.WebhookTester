@@ -15,8 +15,9 @@ public sealed class WebhookTesterResource : ContainerResource, IResourceWithConn
     /// <param name="name">The name of the resource.</param>
     /// <param name="defaultSessionToken">The token used for the default session URL.</param>
     public WebhookTesterResource(string name, string defaultSessionToken)
-        : base(name)
+        : base(name ?? throw new ArgumentNullException(nameof(name)))
     {
+        ArgumentNullException.ThrowIfNull(defaultSessionToken);
         DefaultSessionToken = defaultSessionToken;
     }
 

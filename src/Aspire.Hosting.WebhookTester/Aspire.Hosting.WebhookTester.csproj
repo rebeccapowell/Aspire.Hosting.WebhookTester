@@ -17,6 +17,7 @@
         <Authors>Rebecca Powell</Authors>
         <AllowedOutputExtensionsInPackageBuildOutputFolder>$(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>
         <EmbedUntrackedSources>true</EmbedUntrackedSources>
+        <PackageIcon>tarampampam.png</PackageIcon>
     </PropertyGroup>
     <ItemGroup>
         <PackageReference Include="Aspire.Hosting" Version="9.3.2" />
@@ -33,6 +34,11 @@
             <Pack>true</Pack>
             <PackagePath></PackagePath>
             <Link>README.md</Link>
+        </None>
+        <None Include="..\..\tarampampam.png">
+          <Pack>True</Pack>
+          <PackagePath></PackagePath>
+          <Link>tarampampam.png</Link>
         </None>
     </ItemGroup>
 </Project>

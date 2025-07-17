@@ -16,15 +16,16 @@
           <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
         <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.14.1" />
-        <PackageReference Include="xunit.runner.visualstudio" Version="3.1.1">
+        <PackageReference Include="xunit.runner.visualstudio" Version="3.1.3">
           <PrivateAssets>all</PrivateAssets>
           <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
-        <PackageReference Include="xunit.v3" Version="2.0.3" />
+        <PackageReference Include="xunit.v3" Version="3.0.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\sample\AppHost\AppHost.csproj" />
+    <ProjectReference Include="..\..\tests\Aspire.Tests.Utilities\Aspire.Tests.Utilities.csproj" />
+    <ProjectReference Include="..\AppHost\AppHost.csproj" />
   </ItemGroup>
 
     <ItemGroup>
