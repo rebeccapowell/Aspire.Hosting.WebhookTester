@@ -43,7 +43,7 @@ jobs:
     - name: Test
       run: |
         dotnet test --no-build \
-          --logger "trx;LogFileName=test-results.trx" \
+          --logger "trx;LogFileName=$(AssemblyName)-results.trx" \
           --results-directory ./TestResults \
           --collect:"XPlat Code Coverage"
 
@@ -58,7 +58,7 @@ jobs:
       if: always()
       uses: EnricoMi/publish-unit-test-result-action@v2
       with:
-        files: '**/test-results.trx'
+        files: '**/*.trx'
 
     - name: Upload coverage
       if: always()
