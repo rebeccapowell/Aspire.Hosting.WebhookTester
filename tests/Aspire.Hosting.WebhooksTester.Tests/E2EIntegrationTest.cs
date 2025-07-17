@@ -3,9 +3,9 @@ using System.Text;
 using Microsoft.Extensions.Logging;
 using Projects;
 
-namespace Aspire.Hosting.WebhooksTester.Tests.Tests;
+namespace Aspire.Hosting.WebhooksTester.Tests;
 
-public class IntegrationTest1
+public class E2EIntegrationTest
 {
     private static readonly TimeSpan DefaultTimeout = TimeSpan.FromSeconds(30);
 
@@ -29,33 +29,38 @@ public class IntegrationTest1
         {
             clientBuilder.AddStandardResilienceHandler();
         });
+        
+        var webhook = builder.Resources
+            .OfType<ContainerResource>()
+            .First(r => r.Name == "webhook-tester");
 
-        await using var app = await builder.BuildAsync(cancellationToken).WaitAsync(DefaultTimeout, cancellationToken);
-        await app.StartAsync(cancellationToken).WaitAsync(DefaultTimeout, cancellationToken);
+        var env = await webhook.GetEnvironmentVariableValuesAsync(DistributedApplicationOperation.Run);
+        var token = env["DEFAULT_SESSION_TOKEN"];
 
-        await app.ResourceNotifications.WaitForResourceAsync("webhook-tester", KnownResourceStates.Running, cancellationToken).WaitAsync(DefaultTimeout, cancellationToken);
+        await using var app = await builder.BuildAsync(cancellationToken);
+        await app.StartAsync(cancellationToken);
 
         var apiClient = app.CreateHttpClient("api");
         var webhookClient = app.CreateHttpClient("webhook-tester", "http");
-
-        // The webhook client base address ends with the default session token
-        var sessionToken = webhookClient.BaseAddress?.Segments.Last().TrimEnd('/');
-
-        // Ensure the session exists
-        var sessionResponse = await webhookClient.GetAsync($"/api/session/{sessionToken}", cancellationToken);
-        sessionResponse.EnsureSuccessStatusCode();
 
         var payload = new { name = "Rebecca" };
         var response = await apiClient.PostAsJsonAsync("/test", payload, cancellationToken);
         response.EnsureSuccessStatusCode();
 
-        await Task.Delay(TimeSpan.FromSeconds(1), cancellationToken);
+        //await Task.Delay(TimeSpan.FromSeconds(10), cancellationToken);
 
-        var requests = await webhookClient.GetFromJsonAsync<List<CapturedRequest>>($"/api/session/{sessionToken}/requests", cancellationToken);
+        // Query session from webhook tester using resolved token
+        var sessionResponse = await webhookClient.GetAsync($"/api/session/{token}", cancellationToken);
+        sessionResponse.EnsureSuccessStatusCode();
+
+        var requests = await webhookClient.GetFromJsonAsync<List<CapturedRequest>>(
+            $"/api/session/{token}/requests",
+            cancellationToken);
+
         Assert.NotNull(requests);
-        Assert.NotEmpty(requests!);
+        Assert.NotEmpty(requests);
 
-        var bodyJson = Encoding.UTF8.GetString(Convert.FromBase64String(requests![0].request_payload_base64));
+        var bodyJson = Encoding.UTF8.GetString(Convert.FromBase64String(requests[0].request_payload_base64));
         Assert.Contains("Rebecca", bodyJson);
     }
 }

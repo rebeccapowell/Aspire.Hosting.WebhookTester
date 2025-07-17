@@ -7,6 +7,7 @@ var webhookTester = builder.AddWebhookTester("webhook-tester", token)
 
 var api = builder
     .AddProject<Projects.Api>("api")
-    .WithReference(webhookTester);
+    .WithReference(webhookTester)
+    .WithDefaultWebhookToken(webhookTester);
 
 builder.Build().Run();
