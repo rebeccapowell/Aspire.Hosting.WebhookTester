@@ -119,6 +119,8 @@ public static class WebhookTesterResourceBuilderExtensions
         bool autoCreateSessions = true,
         int? port = null)
     {
+        ArgumentNullException.ThrowIfNull(builder);
+        ArgumentNullException.ThrowIfNull(name);
         token ??= Guid.NewGuid().ToString();
         var resource = new WebhookTesterResource(name, token);
 
@@ -163,9 +165,12 @@ public static class WebhookTesterResourceBuilderExtensions
     public static IResourceBuilder<WebhookTesterResource> WithHttpPort(
         this IResourceBuilder<WebhookTesterResource> builder,
         int port)
-        => builder.WithEnvironment(
+    {
+        ArgumentNullException.ThrowIfNull(builder);
+        return builder.WithEnvironment(
             "HTTP_PORT",
             port.ToString(CultureInfo.InvariantCulture));
+    }
 
     /// <summary>
     /// Enables or disables auto session creation.
@@ -173,7 +178,10 @@ public static class WebhookTesterResourceBuilderExtensions
     public static IResourceBuilder<WebhookTesterResource> WithAutoCreateSessions(
         this IResourceBuilder<WebhookTesterResource> builder,
         bool enabled = true)
-        => builder.WithEnvironment("AUTO_CREATE_SESSIONS", enabled.ToString().ToLowerInvariant());
+    {
+        ArgumentNullException.ThrowIfNull(builder);
+        return builder.WithEnvironment("AUTO_CREATE_SESSIONS", enabled.ToString().ToLowerInvariant());
+    }
 
     /// <summary>
     /// Sets the log level.
@@ -181,9 +189,12 @@ public static class WebhookTesterResourceBuilderExtensions
     public static IResourceBuilder<WebhookTesterResource> WithLogLevel(
         this IResourceBuilder<WebhookTesterResource> builder,
         LogLevel level)
-        => builder.WithEnvironment(
+    {
+        ArgumentNullException.ThrowIfNull(builder);
+        return builder.WithEnvironment(
             "LOG_LEVEL",
             level.ToString().ToLowerInvariant());
+    }
 
     /// <summary>
     /// Sets the log format.
@@ -191,9 +202,12 @@ public static class WebhookTesterResourceBuilderExtensions
     public static IResourceBuilder<WebhookTesterResource> WithLogFormat(
         this IResourceBuilder<WebhookTesterResource> builder,
         LogFormat format)
-        => builder.WithEnvironment(
+    {
+        ArgumentNullException.ThrowIfNull(builder);
+        return builder.WithEnvironment(
             "LOG_FORMAT",
             format.ToString().ToLowerInvariant());
+    }
 
     /// <summary>
     /// Sets the server listen address.
@@ -201,7 +215,11 @@ public static class WebhookTesterResourceBuilderExtensions
     public static IResourceBuilder<WebhookTesterResource> WithServerAddress(
         this IResourceBuilder<WebhookTesterResource> builder,
         string address)
-        => builder.WithEnvironment("SERVER_ADDR", address);
+    {
+        ArgumentNullException.ThrowIfNull(builder);
+        ArgumentNullException.ThrowIfNull(address);
+        return builder.WithEnvironment("SERVER_ADDR", address);
+    }
 
     /// <summary>
     /// Sets the HTTP read timeout.
@@ -209,7 +227,10 @@ public static class WebhookTesterResourceBuilderExtensions
     public static IResourceBuilder<WebhookTesterResource> WithHttpReadTimeout(
         this IResourceBuilder<WebhookTesterResource> builder,
         TimeSpan timeout)
-        => builder.WithEnvironment("HTTP_READ_TIMEOUT", ToGoDuration(timeout));
+    {
+        ArgumentNullException.ThrowIfNull(builder);
+        return builder.WithEnvironment("HTTP_READ_TIMEOUT", ToGoDuration(timeout));
+    }
 
     /// <summary>
     /// Sets the HTTP write timeout.
@@ -217,7 +238,10 @@ public static class WebhookTesterResourceBuilderExtensions
     public static IResourceBuilder<WebhookTesterResource> WithHttpWriteTimeout(
         this IResourceBuilder<WebhookTesterResource> builder,
         TimeSpan timeout)
-        => builder.WithEnvironment("HTTP_WRITE_TIMEOUT", ToGoDuration(timeout));
+    {
+        ArgumentNullException.ThrowIfNull(builder);
+        return builder.WithEnvironment("HTTP_WRITE_TIMEOUT", ToGoDuration(timeout));
+    }
 
     /// <summary>
     /// Sets the HTTP idle timeout.
@@ -225,7 +249,10 @@ public static class WebhookTesterResourceBuilderExtensions
     public static IResourceBuilder<WebhookTesterResource> WithHttpIdleTimeout(
         this IResourceBuilder<WebhookTesterResource> builder,
         TimeSpan timeout)
-        => builder.WithEnvironment("HTTP_IDLE_TIMEOUT", ToGoDuration(timeout));
+    {
+        ArgumentNullException.ThrowIfNull(builder);
+        return builder.WithEnvironment("HTTP_IDLE_TIMEOUT", ToGoDuration(timeout));
+    }
 
     /// <summary>
     /// Sets the shutdown timeout.
@@ -233,7 +260,10 @@ public static class WebhookTesterResourceBuilderExtensions
     public static IResourceBuilder<WebhookTesterResource> WithShutdownTimeout(
         this IResourceBuilder<WebhookTesterResource> builder,
         TimeSpan timeout)
-        => builder.WithEnvironment("SHUTDOWN_TIMEOUT", ToGoDuration(timeout));
+    {
+        ArgumentNullException.ThrowIfNull(builder);
+        return builder.WithEnvironment("SHUTDOWN_TIMEOUT", ToGoDuration(timeout));
+    }
 
     /// <summary>
     /// Sets the storage driver.
@@ -241,9 +271,12 @@ public static class WebhookTesterResourceBuilderExtensions
     public static IResourceBuilder<WebhookTesterResource> WithStorageDriver(
         this IResourceBuilder<WebhookTesterResource> builder,
         StorageDriver driver)
-        => builder.WithEnvironment(
+    {
+        ArgumentNullException.ThrowIfNull(builder);
+        return builder.WithEnvironment(
             "STORAGE_DRIVER",
             driver.ToString().ToLowerInvariant());
+    }
 
     /// <summary>
     /// Sets the filesystem storage directory.
@@ -252,7 +285,11 @@ public static class WebhookTesterResourceBuilderExtensions
     public static IResourceBuilder<WebhookTesterResource> WithFsStorageDir(
         this IResourceBuilder<WebhookTesterResource> builder,
         string dir)
-        => builder.WithEnvironment("FS_STORAGE_DIR", dir);
+    {
+        ArgumentNullException.ThrowIfNull(builder);
+        ArgumentNullException.ThrowIfNull(dir);
+        return builder.WithEnvironment("FS_STORAGE_DIR", dir);
+    }
 
     /// <summary>
     /// Sets the pubsub driver.
@@ -260,9 +297,12 @@ public static class WebhookTesterResourceBuilderExtensions
     public static IResourceBuilder<WebhookTesterResource> WithPubSubDriver(
         this IResourceBuilder<WebhookTesterResource> builder,
         PubSubDriver driver)
-        => builder.WithEnvironment(
+    {
+        ArgumentNullException.ThrowIfNull(builder);
+        return builder.WithEnvironment(
             "PUBSUB_DRIVER",
             driver.ToString().ToLowerInvariant());
+    }
 
     /// <summary>
     /// Sets the tunnel driver (ngrok).
@@ -271,6 +311,7 @@ public static class WebhookTesterResourceBuilderExtensions
         this IResourceBuilder<WebhookTesterResource> builder,
         TunnelDriver driver)
     {
+        ArgumentNullException.ThrowIfNull(builder);
         if (driver == TunnelDriver.Ngrok)
         {
             builder = builder.WithEnvironment("TUNNEL_DRIVER", "ngrok");
@@ -286,7 +327,11 @@ public static class WebhookTesterResourceBuilderExtensions
     public static IResourceBuilder<WebhookTesterResource> WithNgrokAuthToken(
         this IResourceBuilder<WebhookTesterResource> builder,
         string token)
-        => builder.WithEnvironment("NGROK_AUTHTOKEN", token);
+    {
+        ArgumentNullException.ThrowIfNull(builder);
+        ArgumentNullException.ThrowIfNull(token);
+        return builder.WithEnvironment("NGROK_AUTHTOKEN", token);
+    }
 
     /// <summary>
     /// Sets the Redis DSN for pubsub driver. Must be a valid URI with 'redis' or 'unix' scheme.
@@ -295,6 +340,8 @@ public static class WebhookTesterResourceBuilderExtensions
         this IResourceBuilder<WebhookTesterResource> builder,
         string dsn)
     {
+        ArgumentNullException.ThrowIfNull(builder);
+        ArgumentNullException.ThrowIfNull(dsn);
         // Validate DSN format: allow redis:// or unix://
         if (!Uri.TryCreate(dsn, UriKind.Absolute, out var uri) ||
             ( !string.Equals(uri.Scheme, "redis", StringComparison.OrdinalIgnoreCase)
@@ -313,7 +360,10 @@ public static class WebhookTesterResourceBuilderExtensions
     public static IResourceBuilder<WebhookTesterResource> WithSessionTtl(
         this IResourceBuilder<WebhookTesterResource> builder,
         TimeSpan ttl)
-        => builder.WithEnvironment("SESSION_TTL", ttl.ToString());
+    {
+        ArgumentNullException.ThrowIfNull(builder);
+        return builder.WithEnvironment("SESSION_TTL", ttl.ToString());
+    }
 
     /// <summary>
     /// Sets the maximum number of sessions.
@@ -321,9 +371,12 @@ public static class WebhookTesterResourceBuilderExtensions
     public static IResourceBuilder<WebhookTesterResource> WithMaxRequests(
         this IResourceBuilder<WebhookTesterResource> builder,
         uint max)
-        => builder.WithEnvironment(
+    {
+        ArgumentNullException.ThrowIfNull(builder);
+        return builder.WithEnvironment(
             "MAX_REQUESTS",
             max.ToString(CultureInfo.InvariantCulture));
+    }
 
     /// <summary>
     /// Sets the maximum request body size.
@@ -331,9 +384,12 @@ public static class WebhookTesterResourceBuilderExtensions
     public static IResourceBuilder<WebhookTesterResource> WithMaxRequestBodySize(
         this IResourceBuilder<WebhookTesterResource> builder,
         uint bytes)
-        => builder.WithEnvironment(
+    {
+        ArgumentNullException.ThrowIfNull(builder);
+        return builder.WithEnvironment(
             "MAX_REQUEST_BODY_SIZE",
             bytes.ToString(CultureInfo.InvariantCulture));
+    }
     
     /// <summary>
     /// Adds a reference to the Webhook Tester and injects its environment variables into the consuming resource.
@@ -346,11 +402,12 @@ public static class WebhookTesterResourceBuilderExtensions
         IResourceBuilder<WebhookTesterResource> webhook)
         where T : IResourceWithEnvironment
     {
-        return builder
-            .WithEnvironment(ctx =>
-            {
-                var token = webhook.Resource.EnvironmentVariables["DEFAULT_SESSION_TOKEN"];
-                ctx.EnvironmentVariables.Add("DEFAULT_SESSION_TOKEN", token!);
-            });
+        ArgumentNullException.ThrowIfNull(builder);
+        ArgumentNullException.ThrowIfNull(webhook);
+        return builder.WithEnvironment(ctx =>
+        {
+            var token = webhook.Resource.EnvironmentVariables["DEFAULT_SESSION_TOKEN"];
+            ctx.EnvironmentVariables.Add("DEFAULT_SESSION_TOKEN", token!);
+        });
     }
 }
