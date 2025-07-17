@@ -1,6 +1,6 @@
 # WebhookTester Aspire Extension Specification
 
-This document reverse engineers the behaviour of the `Powell.Aspire.Hosting.WebhookTester` package. It can be used as a specification for implementing a compatible extension from scratch.
+This document specifiess the behaviour of the `Powell.Aspire.Hosting.WebhookTester` package. It can be used as a specification for implementing a compatible extension from scratch.
 
 ## Project structure
 
