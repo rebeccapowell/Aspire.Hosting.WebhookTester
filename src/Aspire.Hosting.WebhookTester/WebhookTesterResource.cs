@@ -3,7 +3,7 @@ namespace Aspire.Hosting.ApplicationModel;
 /// <summary>
 /// Represents a webhook tester container resource with a session-based endpoint URL as a connection string.
 /// </summary>
-public sealed class WebhookTesterResource : ContainerResource, IResourceWithConnectionString
+public sealed class WebhookTesterResource : ContainerResource, IResourceWithConnectionString, IResourceWithServiceDiscovery
 {
     internal const string PrimaryEndpointName = "http";
 
@@ -61,4 +61,13 @@ public sealed class WebhookTesterResource : ContainerResource, IResourceWithConn
             $"http://{PrimaryEndpoint.Property(EndpointProperty.Host)}:{PrimaryEndpoint.Property(EndpointProperty.Port)}/{DefaultSessionToken}");
         return builder.Build();
     }
+    
+    /// <summary>
+    /// Gets a list of environment variables to inject into referencing projects.
+    /// </summary>
+    public IReadOnlyDictionary<string, string> EnvironmentVariables =>
+        new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
+    {
+        { "DEFAULT_SESSION_TOKEN", DefaultSessionToken }
+    };
 }

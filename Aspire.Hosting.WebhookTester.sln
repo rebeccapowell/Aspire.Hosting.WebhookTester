@@ -14,6 +14,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Notes", "Notes", "{1019C5FD
 		LICENSE = LICENSE
 		README.md = README.md
 		.gitignore = .gitignore
+		AGENTS.MD = AGENTS.MD
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Aspire.Hosting.WebhooksTester.Tests", "tests\Aspire.Hosting.WebhooksTester.Tests\Aspire.Hosting.WebhooksTester.Tests.csproj", "{F35713FA-F4B8-4928-A828-E5BDC8A5FE48}"

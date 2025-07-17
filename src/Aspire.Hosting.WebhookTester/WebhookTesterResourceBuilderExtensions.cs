@@ -1,4 +1,5 @@
 using System.Globalization;
+using Aspire.Hosting.ApplicationModel;
 
 // ReSharper disable once CheckNamespace
 namespace Aspire.Hosting;
@@ -126,7 +127,8 @@ public static class WebhookTesterResourceBuilderExtensions
             .WithImageRegistry(WebhookTesterContainerImageTags.Registry)
             .WithImageTag(WebhookTesterContainerImageTags.Tag)
             .WithHttpEndpoint(port: port, targetPort: DefaultContainerPort)
-            .WithHttpHealthCheck("/healthz");
+            .WithHttpHealthCheck("/healthz")
+            .WithEnvironment("DEFAULT_SESSION_TOKEN", token);
 
         if (port.HasValue)
         {
@@ -332,4 +334,23 @@ public static class WebhookTesterResourceBuilderExtensions
         => builder.WithEnvironment(
             "MAX_REQUEST_BODY_SIZE",
             bytes.ToString(CultureInfo.InvariantCulture));
+    
+    /// <summary>
+    /// Adds a reference to the Webhook Tester and injects its environment variables into the consuming resource.
+    /// </summary>
+    /// <typeparam name="T">The type of the consuming resource.</typeparam>
+    /// <param name="builder">The resource builder for the consumer.</param>
+    /// <param name="webhook">The webhook tester resource.</param>
+    public static IResourceBuilder<T> WithDefaultWebhookToken<T>(
+        this IResourceBuilder<T> builder,
+        IResourceBuilder<WebhookTesterResource> webhook)
+        where T : IResourceWithEnvironment
+    {
+        return builder
+            .WithEnvironment(ctx =>
+            {
+                var token = webhook.Resource.EnvironmentVariables["DEFAULT_SESSION_TOKEN"];
+                ctx.EnvironmentVariables.Add("DEFAULT_SESSION_TOKEN", token!);
+            });
+    }
 }
