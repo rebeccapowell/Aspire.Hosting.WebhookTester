@@ -17,7 +17,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Notes", "Notes", "{1019C5FD
 		AGENTS.MD = AGENTS.MD
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Aspire.Hosting.WebhooksTester.Tests", "tests\Aspire.Hosting.WebhooksTester.Tests\Aspire.Hosting.WebhooksTester.Tests.csproj", "{F35713FA-F4B8-4928-A828-E5BDC8A5FE48}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "tests", "sample\tests\tests.csproj", "{F35713FA-F4B8-4928-A828-E5BDC8A5FE48}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Api", "sample\Api\Api.csproj", "{6109AF76-491A-45C8-8310-B1C01738B530}"
 EndProject
@@ -111,7 +111,8 @@ Global
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
-	GlobalSection(NestedProjects) = preSolution
-		{1986CE06-B3AA-46AA-A1DB-91988A42BD60} = {0AB3BF05-4346-4AA6-1389-037BE0695223}
-	EndGlobalSection
+GlobalSection(NestedProjects) = preSolution
+                {1986CE06-B3AA-46AA-A1DB-91988A42BD60} = {0AB3BF05-4346-4AA6-1389-037BE0695223}
+                {F35713FA-F4B8-4928-A828-E5BDC8A5FE48} = {0AB3BF05-4346-4AA6-1389-037BE0695223}
+        EndGlobalSection
 EndGlobal

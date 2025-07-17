@@ -3,15 +3,14 @@ using Aspire.Hosting.ApplicationModel;
 using Aspire.Hosting.Testing;
 using Xunit.Abstractions;
 
-namespace Aspire.Hosting.WebhooksTester.Tests;
+namespace Aspire.Hosting.WebhookTester.Tests;
 
 public class WebhookTesterFunctionalTests(ITestOutputHelper testOutputHelper)
 {
-    [Fact]
     [RequiresDocker]
     public async Task VerifyWebhookTesterResourceHealth()
     {
-        using var builder = TestDistributedApplicationBuilder.CreateWithTestContainerRegistry(testOutputHelper);
+        using var builder = DistributedApplicationTestingBuilder.Create();
         var token = Guid.NewGuid().ToString();
         var webhook = builder.AddWebhookTester("webhook-tester", token);
 
@@ -24,11 +23,10 @@ public class WebhookTesterFunctionalTests(ITestOutputHelper testOutputHelper)
         Assert.Equal(HttpStatusCode.OK, response.StatusCode);
     }
 
-    [Fact]
     [RequiresDocker]
     public async Task WithDefaultWebhookTokenInjectsEnvironment()
     {
-        using var builder = TestDistributedApplicationBuilder.CreateWithTestContainerRegistry(testOutputHelper);
+        using var builder = DistributedApplicationTestingBuilder.Create();
         var token = Guid.NewGuid().ToString();
         var webhook = builder.AddWebhookTester("webhook", token);
         var consumer = builder.AddContainer("consumer", "docker.io/library/nginx:latest")
@@ -41,11 +39,10 @@ public class WebhookTesterFunctionalTests(ITestOutputHelper testOutputHelper)
         Assert.Equal(token, env["DEFAULT_SESSION_TOKEN"]);
     }
 
-    [Fact]
     [RequiresDocker]
     public async Task WithFsStorageDirSetsEnvironmentVariable()
     {
-        using var builder = TestDistributedApplicationBuilder.CreateWithTestContainerRegistry(testOutputHelper);
+        using var builder = DistributedApplicationTestingBuilder.Create();
         var dir = "/tmp";
         var webhook = builder.AddWebhookTester("webhook")
                               .WithFsStorageDir(dir);
