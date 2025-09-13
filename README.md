@@ -9,7 +9,7 @@ This repository contains the extension library, a sample app that shows how to u
 Add the NuGet package to your AppHost project:
 
 ```bash
-dotnet add package Powell.Aspire.Hosting.WebhookTester
+dotnet add package Allesa.Aspire.Hosting.WebhookTester
 ```
 
 The extension targets **.NET 9** and ships as a regular NuGet package, so no additional tooling is required.

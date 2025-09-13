@@ -5,7 +5,7 @@
         <Nullable>enable</Nullable>
         <IsPackable>true</IsPackable>
         <EnablePackageValidation>true</EnablePackageValidation>
-        <PackageId>Powell.Aspire.Hosting.WebhookTester</PackageId>
+        <PackageId>Allesa.Aspire.Hosting.WebhookTester</PackageId>
         <PackageVersion>0.1.0</PackageVersion>
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
         <PackageReadmeFile>README.md</PackageReadmeFile>

@@ -1,11 +1,11 @@
 # WebhookTester Aspire Extension Specification
 
-This document specifiess the behaviour of the `Powell.Aspire.Hosting.WebhookTester` package. It can be used as a specification for implementing a compatible extension from scratch.
+This document specifiess the behaviour of the `Allesa.Aspire.Hosting.WebhookTester` package. It can be used as a specification for implementing a compatible extension from scratch.
 
 ## Project structure
 
 * Target framework: **.NET&nbsp;9**
-* Package ID: `Powell.Aspire.Hosting.WebhookTester`
+* Package ID: `Allesa.Aspire.Hosting.WebhookTester`
 * Contains a single class library with file-scoped namespaces and implicit `using` directives.
 * Public APIs are defined inside the `Aspire.Hosting` namespace.
 
