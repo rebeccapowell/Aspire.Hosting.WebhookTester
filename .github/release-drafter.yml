@@ -1,4 +1,4 @@
-name-template: "Aspire.Hosting.Mailpit $RESOLVED_VERSION"
+name-template: "Aspire.Hosting.WebhookTester $RESOLVED_VERSION"
 tag-template: "$RESOLVED_VERSION"
 change-template: "- $TITLE by @$AUTHOR (#$NUMBER)"
 no-changes-template: "- No changes"
