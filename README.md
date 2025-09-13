@@ -87,4 +87,4 @@ dotnet test tests/Aspire.Hosting.WebhookTester.Tests --filter FullyQualifiedName
 
 ## License
 
-This project is licensed under the MIT license. See the [LICENSE](LICENSE) file for details.
+This project is licensed under the MIT license. See the [LICENSE](LICENSE) file for details. 
